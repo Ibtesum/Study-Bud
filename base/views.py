@@ -156,10 +156,10 @@ def deleteRoom(request, pk):
 def deleteMessage(request, pk):
     message = Message.objects.get(id=pk)
 
-    if request.user != Message.user:
-        return HttpResponse('You are not authorized to edit this room')
+    if request.user != message.user:
+        return HttpResponse('You are not authorized to delete this message')
 
     if request.method == 'POST':
         message.delete()
-        return redirect('home')
+        return redirect('room' , pk=message.room.id)
     return render(request, 'base/delete.html', {'obj':message})
